@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Listings | My Job Platform</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Job Platform</h1>
+
+    <!-- Job Filter Form -->
+    <div class="filter-bar">
+        <form action="{{ url_for('filter_jobs') }}" method="GET">
+            <input type="text" name="title" placeholder="Job Title">
+            <input type="text" name="company" placeholder="Company">
+            
+            <!-- Dropdown for South African cities -->
+            <select name="location">
+                <option value="">Select Location</option>
+                <option value="Johannesburg">Johannesburg</option>
+                <option value="Cape Town">Cape Town</option>
+                <option value="Durban">Durban</option>
+                <option value="Pretoria">Pretoria</option>
+                <option value="Port Elizabeth">Port Elizabeth</option>
+                <option value="Bloemfontein">Bloemfontein</option>
+                <option value="East London">East London</option>
+                <option value="Pietermaritzburg">Pietermaritzburg</option>
+                <option value="Polokwane">Polokwane</option>
+                <option value="Nelspruit">Nelspruit</option>
+                <option value="Mokopane">Mokopane</option>
+            </select>
+
+            <select name="job_type">
+                <option value="">Job Type</option>
+                <option value="Full-Time">Full-Time</option>
+                <option value="Part-Time">Part-Time</option>
+                <option value="Contract">Contract</option>
+                <option value="Internship">Internship</option>
+            </select>
+
+            <select name="industry">
+                <option value="">Industry</option>
+                <option value="Technology">Technology</option>
+                <option value="Healthcare">Healthcare</option>
+                <option value="Finance">Finance</option>
+                <option value="Education">Education</option>
+            </select>
+            <button type="submit">Filter Jobs</button>
+        </form>
+    </div>
+
+   <!-- Job Listings Section -->
+<ul class="job-listing">
+    {% for job in jobs %}
+    <li>
+        <h2><a href="#">{{ job[1] }} at {{ job[3] }}</a></h2>
+        <p><strong>Location:</strong> {{ job[2] }}</p>
+        <p><strong>Job Type:</strong> {{ job[4] }}</p>
+        <p><strong>Industry:</strong> {{ job[5] }}</p>
+        <p><strong>Description:</strong> {{ job[6] }}</p>
+        <p><strong>Responsibilities:</strong>{{ job[7].replace('\n', '<br>') }}</p>
+        <p><strong>Qualifications:</strong>{{ job[8].replace('\n', '<br>') }}</p>
+        <p><strong>Experience:</strong> {{ job[9] }}</p>
+
+       <!-- Apply button -->
+       <form action="/apply" method="POST">
+        <input type="hidden" name="job_title" value="{{ job.title }}">
+        <button type="submit">Apply</button>
+    </form>
+    </li>
+    {% endfor %}
+</ul>
+</div>
+</body>
+</html>
+
+
